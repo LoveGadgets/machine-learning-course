@@ -1,0 +1,39 @@
+import numpy as np
+w1 = np.array([[0,0],[1,1],[2,2],[3,2],[4,2],[5,3]])
+w2 = np.array([[6,9],[8,10],[9,10],[9,11],[10,10],[11,12],[12,12],[12,13]])
+def find_u(alist):
+    u1 = 0
+    u2 = 0
+    size = len(alist)
+    for item in alist:
+        u1 += item[0]
+        u2 += item[1]
+        # print(item.reshape(-1,1).T)
+    return np.array([u1/size,u2/size])
+w1_u = find_u(w1)
+# print(u)
+w2_u = find_u(w2)
+
+def cov(vector,u):
+    new_vec = np.subtract(vector,u)
+    vec= new_vec.reshape(-1,1)
+    matrix = vec.T*vec
+    # print(matrix)
+    # print(matrix[0][1])
+    return matrix
+
+def find_covs(alist,u):
+    dim = len(u)
+    sum1 = np.zeros((dim,dim))
+    # print(a)
+    for vector in alist:
+        sum1 = np.add(sum1,cov(vector,u))
+        # print(cov(vector,u))
+    average = sum1/(len(alist)-1)
+    print(average)
+
+find_covs(w1,w1_u)
+find_covs(w2,w2_u)
+ 
+print(w1_u)
+print(w2_u)
